@@ -358,6 +358,8 @@ import { observeResize } from "~/lib/observeResize";
 import { ThreadVisitWatermark } from "./chat/ThreadVisitWatermark";
 import { ChatTerminalDrawers } from "./chat/ChatTerminalDrawers";
 import { ChatRightPanel } from "./chat/ChatRightPanel";
+import { isBotProject } from "../tripp/bots";
+import { useDeveloperMode } from "../tripp/developerMode";
 import { useDraftEnvironmentRouting } from "./chat/useDraftEnvironmentRouting";
 import { branchMismatchBannerItem, extensionStatusBannerItem } from "./chat/ThreadActivityBanners";
 import { ThreadNow } from "./chat/ThreadNow";
@@ -1112,6 +1114,7 @@ export default function ChatView(props: ChatViewProps) {
     activeProject?.id ?? null,
     activeProject ?? undefined,
   );
+  const [developerMode] = useDeveloperMode();
   const activeProjectScripts = activeProject ? resolveProjectScripts(settings, activeProject) : [];
   const { projectCloneBannerItem, projectCloneSendBlockReason } =
     useProjectCloneBanner(activeProjectRef);
@@ -3898,6 +3901,11 @@ export default function ChatView(props: ChatViewProps) {
                   {...(draftId ? { draftId } : {})}
                   activeProjectName={activeProject?.title}
                   activeProjectScripts={activeProject ? activeProjectScripts : undefined}
+                  bot={
+                    !developerMode && activeProject && isBotProject(activeProject)
+                      ? activeProject
+                      : null
+                  }
                   preferredScriptId={
                     activeProject ? (lastInvokedScriptByProjectId[activeProject.id] ?? null) : null
                   }

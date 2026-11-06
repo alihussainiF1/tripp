@@ -39,6 +39,8 @@ import {
   THREAD_DETAILS_PANEL_LABEL_CLASS,
 } from "./threadDetailsPanelStyles";
 import { Menu, MenuPopup } from "../ui/menu";
+import { BotDetailsPanel } from "../../tripp/BotDetailsPanel";
+import type { EnvironmentProject } from "@t3tools/client-runtime/state/models";
 
 const GitActionsControl = memo(BaseGitActionsControl);
 
@@ -84,6 +86,8 @@ interface ThreadDetailsPanelProps extends Pick<
   ) => Promise<ProjectScriptActionResult>;
   onDeleteProjectScript: (scriptId: string) => Promise<ProjectScriptActionResult>;
   usage: ThreadDetailsUsageInput;
+  /** When set, the card shows this Bot's details instead of workspace and git controls. */
+  bot?: EnvironmentProject | null;
 }
 
 export function ThreadDetailsPanel(props: ThreadDetailsPanelProps) {
@@ -159,6 +163,18 @@ export function ThreadDetailsPanel(props: ThreadDetailsPanelProps) {
             props.activeProjectName !== undefined &&
             (visible.gitActions || (visible.changes && props.isGitRepo)),
         };
+        if (props.bot) {
+          return (
+            <div className="group/details-items">
+              <BotDetailsPanel
+                environmentId={props.environmentId}
+                threadId={props.threadId}
+                bot={props.bot}
+              />
+              {visible.usage ? <ThreadDetailsUsage {...props.usage} /> : null}
+            </div>
+          );
+        }
         return (
           <>
             <div className="group/details-items">

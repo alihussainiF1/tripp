@@ -16,7 +16,7 @@ import { useProjects, useThreadShellsForProjectRefs } from "../state/entities";
 const TRIPP_BOTS_ROOT = "~/.tripp/bots";
 const TRIPP_BOTS_SEGMENT = "/.tripp/bots/";
 
-function isBotProject(project: Pick<EnvironmentProject, "workspaceRoot">): boolean {
+export function isBotProject(project: Pick<EnvironmentProject, "workspaceRoot">): boolean {
   return project.workspaceRoot.replaceAll("\\", "/").includes(TRIPP_BOTS_SEGMENT);
 }
 
