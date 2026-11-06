@@ -20,6 +20,9 @@ import {
   useVisibleThreadShells,
 } from "../state/entities";
 import { useEnvironments } from "../state/environments";
+import { isBotProject } from "../tripp/bots";
+import { useDeveloperMode } from "../tripp/developerMode";
+import { botKey, usePrimaryBotKey } from "../tripp/primaryBot";
 
 function ChatIndexRouteView() {
   const { authGateState } = Route.useRouteContext();
@@ -44,12 +47,15 @@ function IndexDraftLanding() {
   const startedAttemptRef = useRef<number | null>(null);
   const [startState, setStartState] = useState({ failed: false, retryRequest: 0 });
 
+  const [developerMode] = useDeveloperMode();
+  const [primaryBotKey] = usePrimaryBotKey();
+  const liveProjects = projects.filter((project) => project.archivedAt == null);
+  const bots = developerMode ? [] : liveProjects.filter(isBotProject);
+  // Bots view opens the primary Bot, then the most recent Bot, before any other project.
   const mostRecentProject =
-    sortScopedProjectsForSidebar(
-      projects.filter((project) => project.archivedAt == null),
-      threads,
-      "updated_at",
-    )[0] ?? null;
+    bots.find((bot) => botKey(bot) === primaryBotKey) ??
+    sortScopedProjectsForSidebar(bots.length > 0 ? bots : liveProjects, threads, "updated_at")[0] ??
+    null;
   const attempt = startState.retryRequest;
 
   // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- starts a draft thread in the most recent project and navigates to it while still on the index
