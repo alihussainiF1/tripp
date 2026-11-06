@@ -39,6 +39,7 @@ import { MorphIcon } from "~/components/MorphIcon";
 import { StandalonePage, StandalonePageHeader } from "../components/ui/standalone-page";
 import { AnchoredToastProvider, ToastProvider } from "../components/ui/toast";
 import { isElectron } from "../env";
+import { readDeveloperMode } from "../tripp/developerMode";
 import { cn } from "../lib/utils";
 import { useClientSettings } from "../hooks/useSettings";
 import {
@@ -350,6 +351,12 @@ function EventRouter({
       useUiStateStore.getState().setProjectExpanded(bootstrapProjectKey, true);
 
       if (readPathname() !== "/") {
+        return;
+      }
+      // Bots view keeps the home route, which opens the primary Bot; the bootstrap
+      // project is a developer concern.
+      if (!readDeveloperMode()) {
+        handledBootstrapThreadIdRef.current = payload.bootstrapThreadId;
         return;
       }
       if (skipInitialBootstrapNavigationRef.current) {

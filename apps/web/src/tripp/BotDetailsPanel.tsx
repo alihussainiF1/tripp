@@ -44,6 +44,7 @@ import { serverEnvironment } from "../state/server";
 import { readEnvironmentScope } from "../state/session";
 import { useAtomCommand } from "../state/use-atom-command";
 import { buildThreadRouteParams } from "../threadRoutes";
+import { AddRoutineDialog } from "./AddRoutineDialog";
 import { BotFileDialog } from "./BotFileDialog";
 
 const STATUS_DOT_CLASS: Record<ScheduledTask["lastRunStatus"], string> = {
@@ -91,7 +92,7 @@ export function BotDetailsPanel(props: {
   const { environmentId, bot } = props;
   const navigate = useNavigate();
   const handleNewThread = useNewThreadHandler();
-  const [editing, setEditing] = useState<"instructions" | "memory" | null>(null);
+  const [editing, setEditing] = useState<"instructions" | "memory" | "routine" | null>(null);
   const [busyTaskId, setBusyTaskId] = useState<string | null>(null);
 
   const canOperate = useAtomValue(
@@ -148,13 +149,8 @@ export function BotDetailsPanel(props: {
     }
   };
 
-  const openRoutineEditor = (taskId?: ScheduledTask["id"]) => {
-    if (taskId) {
-      void navigate({ to: "/settings/scheduled-tasks", search: { environmentId, taskId } });
-    } else {
-      void navigate({ to: "/settings/scheduled-tasks", search: { environmentId } });
-    }
-  };
+  const openRoutineEditor = (taskId: ScheduledTask["id"]) =>
+    void navigate({ to: "/settings/scheduled-tasks", search: { environmentId, taskId } });
 
   return (
     <>
@@ -192,7 +188,7 @@ export function BotDetailsPanel(props: {
             variant="ghost"
             part="icon"
             aria-label="Add routine"
-            onClick={() => openRoutineEditor()}
+            onClick={() => setEditing("routine")}
           >
             <PlusIcon className="size-3.5" />
           </ThreadDetailsControl>
@@ -307,6 +303,13 @@ export function BotDetailsPanel(props: {
         )}
       </ThreadDetailsSection>
 
+      <AddRoutineDialog
+        environmentId={environmentId}
+        bot={bot}
+        threadId={props.threadId}
+        open={editing === "routine"}
+        onOpenChange={(open) => setEditing(open ? "routine" : null)}
+      />
       <BotFileDialog
         environmentId={environmentId}
         cwd={bot.workspaceRoot}
