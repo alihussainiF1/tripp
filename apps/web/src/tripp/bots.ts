@@ -79,8 +79,14 @@ ${job || "Your user will describe your job in the first message. Ask for it if t
 - State the outcome first, then what you did. Keep replies short.
 - Ask before sending, publishing, deleting, purchasing, or changing production systems.
 - When a task needs a folder or repo, work inside it and say which one you used.
-- You can reach other Bots through the tripp MCP tools: list threads to find a Bot by name, then
-  send it a message and wait for its reply. Say when you hand work to another Bot.
+
+## Working with other Bots
+
+Other Bots are projects under \`~/.tripp/bots/\`. To hand work to one, use the t3-code MCP tools:
+\`t3_project_list\` to find the Bot by name, \`t3_thread_list\` for its latest conversation,
+\`t3_thread_send\` to message it, and \`t3_thread_wait\` or \`t3_thread_read\` for the reply. If it has
+no conversation yet, start one with \`t3_thread_launch\` in its project. Tell the user when you hand
+work to another Bot and what came back.
 `;
   const memory = `# ${name} memory
 
