@@ -1,6 +1,4 @@
-// The production icon, as GitHub shows the T3 Code app, whatever this build's channel.
-import appIconUrl from "../../../../assets/prod/t3-black-web-apple-touch-180.png";
-
+// The tripp app icon, served from the web public folder so the PWA and the app share one file.
 export function T3AppIcon(props: { readonly className?: string }) {
-  return <img src={appIconUrl} alt="" className={props.className} />;
+  return <img src="/apple-touch-icon.png" alt="" className={props.className} />;
 }
