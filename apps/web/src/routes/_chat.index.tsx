@@ -1,12 +1,12 @@
 import { workspaceAreaProps } from "../lib/workspaceFocus";
 import { RefreshIcon } from "~/components/ui/refresh-icon";
-import { scopeProjectRef } from "@t3tools/client-runtime/environment";
+import { scopeProjectRef, scopeThreadRef } from "@t3tools/client-runtime/environment";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 
 import { isElectron } from "../env";
 import { NoProjectsHero } from "../components/NoProjectsHero";
-import { sortScopedProjectsForSidebar } from "../components/Sidebar.logic";
+import { isSidebarHiddenThread, sortScopedProjectsForSidebar } from "../components/Sidebar.logic";
 import { Button } from "../components/ui/button";
 import { HostedEmptyState } from "../components/HostedEmptyState";
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "../components/ui/empty";
@@ -20,6 +20,7 @@ import {
   useVisibleThreadShells,
 } from "../state/entities";
 import { useEnvironments } from "../state/environments";
+import { buildThreadRouteParams } from "../threadRoutes";
 import { isBotProject } from "../tripp/bots";
 import { useDeveloperMode } from "../tripp/developerMode";
 import { botKey, usePrimaryBotKey } from "../tripp/primaryBot";
@@ -56,6 +57,18 @@ function IndexDraftLanding() {
     bots.find((bot) => botKey(bot) === primaryBotKey) ??
     sortScopedProjectsForSidebar(bots.length > 0 ? bots : liveProjects, threads, "updated_at")[0] ??
     null;
+  const latestBotThread =
+    mostRecentProject !== null && isBotProject(mostRecentProject)
+      ? (threads
+          .filter(
+            (thread) =>
+              thread.projectId === mostRecentProject.id &&
+              thread.environmentId === mostRecentProject.environmentId &&
+              thread.archivedAt == null &&
+              !isSidebarHiddenThread(thread),
+          )
+          .sort((left, right) => (left.updatedAt < right.updatedAt ? 1 : -1))[0] ?? null)
+      : null;
   const attempt = startState.retryRequest;
 
   // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- starts a draft thread in the most recent project and navigates to it while still on the index
@@ -69,6 +82,20 @@ function IndexDraftLanding() {
       return;
     }
     startedAttemptRef.current = attempt;
+    // A Bot has one ongoing conversation: reopen it rather than starting a fresh draft.
+    const ongoing = latestBotThread;
+    if (ongoing !== null) {
+      void router
+        .navigate({
+          to: "/$environmentId/$threadId",
+          params: buildThreadRouteParams(scopeThreadRef(ongoing.environmentId, ongoing.id)),
+          replace: true,
+        })
+        .catch(() => {
+          setStartState((state) => ({ ...state, failed: true }));
+        });
+      return;
+    }
     void handleNewThread(projectRef, { replace: true })
       .then((opened) => {
         if (opened === null) {
@@ -78,7 +105,7 @@ function IndexDraftLanding() {
       .catch(() => {
         setStartState((state) => ({ ...state, failed: true }));
       });
-  }, [attempt, handleNewThread, mostRecentProject]);
+  }, [attempt, handleNewThread, latestBotThread, mostRecentProject, router]);
 
   if (mostRecentProject !== null) {
     return startState.failed ? (
