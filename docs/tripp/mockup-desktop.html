@@ -1,0 +1,425 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>tripp mockup</title>
+    <style>
+      :root {
+        --acc: #7c6cf6;
+        --bg: #0f1014;
+        --card: #15171c;
+        --sec: #1a1c22;
+        --border: #2a2d35;
+        --fg: #e8e9ee;
+        --muted: #8b8f9c;
+        --accent: #262a36;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 24px;
+        background: var(--bg);
+        font-family: Inter, system-ui, sans-serif;
+        font-size: 13px;
+        color: var(--fg);
+      }
+      .app {
+        display: grid;
+        grid-template-columns: 230px 1fr 260px;
+        height: 640px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+        background: var(--card);
+      }
+      .side {
+        background: var(--sec);
+        border-right: 1px solid var(--border);
+        padding: 14px 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .brand {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 2px 6px 10px;
+        font-weight: 700;
+        font-size: 15px;
+      }
+      .plus {
+        width: 22px;
+        height: 22px;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+        display: grid;
+        place-items: center;
+        color: var(--muted);
+      }
+      .search {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 7px 10px;
+        color: var(--muted);
+        display: flex;
+        justify-content: space-between;
+      }
+      .sec {
+        font-size: 10.5px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+        padding: 12px 6px 4px;
+      }
+      .bot {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 7px 8px;
+        border-radius: 8px;
+      }
+      .bot.active {
+        background: var(--accent);
+      }
+      .av {
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        flex: none;
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+        color: #fff;
+        font-size: 12px;
+      }
+      .ci {
+        border-radius: 50%;
+      }
+      .bot .n {
+        flex: 1;
+        line-height: 1.2;
+      }
+      .bot .n small {
+        display: block;
+        color: var(--muted);
+        font-size: 11px;
+      }
+      .dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--acc);
+      }
+      .foot {
+        margin-top: auto;
+        color: var(--muted);
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 0 6px;
+      }
+      .main {
+        display: flex;
+        flex-direction: column;
+      }
+      .hdr {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 22px;
+        border-bottom: 1px solid var(--border);
+      }
+      .hdr .t {
+        flex: 1;
+      }
+      .hdr .t b {
+        font-size: 15px;
+      }
+      .hdr .t small {
+        display: block;
+        color: var(--muted);
+      }
+      .status {
+        font-size: 11px;
+        padding: 3px 9px;
+        border-radius: 999px;
+        background: rgba(80, 200, 120, 0.15);
+        color: #3fb56a;
+      }
+      .msgs {
+        flex: 1;
+        padding: 22px 26px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        overflow: hidden;
+      }
+      .m {
+        max-width: 72%;
+        line-height: 1.5;
+      }
+      .m.bot {
+        display: flex;
+        gap: 10px;
+      }
+      .m.bot .av {
+        width: 24px;
+        height: 24px;
+        font-size: 10px;
+        margin-top: 2px;
+      }
+      .m.user {
+        align-self: flex-end;
+        background: var(--accent);
+        padding: 9px 13px;
+        border-radius: 14px 14px 4px 14px;
+      }
+      .card {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 12px;
+        margin-top: 8px;
+        background: var(--bg);
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .card i {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        background: var(--accent);
+        display: grid;
+        place-items: center;
+        font-style: normal;
+      }
+      .card small {
+        display: block;
+        color: var(--muted);
+      }
+      .work {
+        color: var(--muted);
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 8px;
+      }
+      .sp {
+        width: 10px;
+        height: 10px;
+        border: 2px solid var(--acc);
+        border-right-color: transparent;
+        border-radius: 50%;
+      }
+      .comp {
+        margin: 0 22px 18px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 12px 14px;
+        background: var(--bg);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .comp .ph {
+        color: var(--muted);
+      }
+      .comp .row {
+        display: flex;
+        justify-content: space-between;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .send {
+        width: 26px;
+        height: 26px;
+        border-radius: 7px;
+        background: var(--acc);
+        color: #fff;
+        display: grid;
+        place-items: center;
+      }
+      .right {
+        border-left: 1px solid var(--border);
+        padding: 16px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        background: var(--sec);
+      }
+      .right h4 {
+        margin: 0;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .kv {
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 0;
+        border-bottom: 1px solid var(--border);
+        color: var(--muted);
+      }
+      .kv b {
+        color: var(--fg);
+        font-weight: 500;
+      }
+      .rt {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 0;
+      }
+      .rt .n {
+        flex: 1;
+        line-height: 1.25;
+      }
+      .rt .n small {
+        display: block;
+        color: var(--muted);
+        font-size: 11px;
+      }
+      .tg {
+        width: 26px;
+        height: 15px;
+        border-radius: 999px;
+        background: var(--acc);
+        position: relative;
+      }
+      .tg:after {
+        content: "";
+        position: absolute;
+        right: 2px;
+        top: 2px;
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: #fff;
+      }
+      .tg.off {
+        background: #3a3d47;
+      }
+      .tg.off:after {
+        right: auto;
+        left: 2px;
+      }
+      .btn {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 7px 10px;
+        text-align: center;
+        background: var(--bg);
+        margin-top: auto;
+      }
+      .cap {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <div class="side">
+        <div class="brand">tripp <span class="plus">+</span></div>
+        <div class="search"><span>Search</span><span>⌘K</span></div>
+        <div class="sec">Pinned</div>
+        <div class="bot active">
+          <div class="av" style="background: #7c6cf6">S</div>
+          <div class="n">Scout<small>Research</small></div>
+          <div class="dot"></div>
+        </div>
+        <div class="bot">
+          <div class="av ci" style="background: #2fb3a6">O</div>
+          <div class="n">Ops<small>Primary bot</small></div>
+        </div>
+        <div class="sec">All bots</div>
+        <div class="bot">
+          <div class="av" style="background: #e07a3f">W</div>
+          <div class="n">Writer</div>
+        </div>
+        <div class="bot">
+          <div class="av" style="background: #d94f70">F</div>
+          <div class="n">Finance<small>Weekly digest</small></div>
+        </div>
+        <div class="bot">
+          <div class="av ci" style="background: #4f8fd9">H</div>
+          <div class="n">Hypergene<small>Pipeline</small></div>
+        </div>
+        <div class="foot"><span>Hidden bots (2)</span><span>Settings</span></div>
+      </div>
+      <div class="main">
+        <div class="hdr">
+          <div class="av" style="background: #7c6cf6">S</div>
+          <div class="t"><b>Scout</b><small>Research · Claude Code</small></div>
+          <span class="status">Working</span><span style="color: var(--muted)">⋯</span>
+        </div>
+        <div class="msgs">
+          <div class="m bot">
+            <div class="av" style="background: #7c6cf6">S</div>
+            <div>
+              Morning briefing is ready. Three items need a decision today, the rest is FYI.
+              <div class="card">
+                <i>📄</i>
+                <div>briefing-2026-11-06.md<small>Created 8:02 · 1.4 KB</small></div>
+              </div>
+            </div>
+          </div>
+          <div class="m user">
+            Add the open Linear tickets for the Hypergene project too, and remember to include them
+            every day.
+          </div>
+          <div class="m bot">
+            <div class="av" style="background: #7c6cf6">S</div>
+            <div>
+              Saved to memory: include Hypergene Linear tickets in the daily briefing. Pulling them
+              now.
+              <div class="work">
+                <span class="sp"></span> Running linear list_issues · open terminal
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="comp">
+          <div class="ph">Message Scout…</div>
+          <div class="row">
+            <span>📎 Attach &nbsp; 🎙 Dictate &nbsp; @ Mention a bot</span
+            ><span class="send">↑</span>
+          </div>
+        </div>
+      </div>
+      <div class="right">
+        <h4>Details</h4>
+        <div>
+          <div class="kv">Model <b>Claude Sonnet</b></div>
+          <div class="kv">Memory <b>12 facts</b></div>
+          <div class="kv">Instructions <b>Edit</b></div>
+        </div>
+        <h4>Routines</h4>
+        <div>
+          <div class="rt">
+            <div class="n">Daily briefing<small>Weekdays 8:00</small></div>
+            <div class="tg"></div>
+          </div>
+          <div class="rt">
+            <div class="n">Weekly digest<small>Paused</small></div>
+            <div class="tg off"></div>
+          </div>
+          <div class="rt" style="color: var(--muted)">+ Add routine</div>
+        </div>
+        <h4>History</h4>
+        <div style="color: var(--muted); line-height: 1.8">
+          Today · Briefing<br />Yesterday · Competitor scan<br />Nov 3 · Setup
+        </div>
+        <div class="btn">Open computer</div>
+      </div>
+    </div>
+    <div class="cap">
+      Desktop shell mockup. Sidebar = bot roster, centre = T3 Code's chat view and composer, right =
+      bot details with routines backed by scheduled tasks.
+    </div>
+  </body>
+</html>
