@@ -1,3 +1,15 @@
+# tripp
+
+tripp is a fork of [T3 Code](https://github.com/pingdotgg/t3code) that packages it as a Grok Bot style app: you create named Bots with a job, standing instructions, memory and routines, and talk to them from any device. Underneath, every Bot runs on T3 Code's providers, threads, scheduled tasks and remote access.
+
+- Spec: [docs/tripp/SPEC.md](./docs/tripp/SPEC.md)
+- Run and self-host: [docs/tripp/RUN.md](./docs/tripp/RUN.md)
+- Bot folders live under `~/.tripp/bots/<slug>/`
+
+The upstream README follows.
+
+---
+
 # T3 Code
 
 T3 Code is an "agent harness control surface". It enables control of the agents on your machine with a best-in-class mobile app ([iOS](https://apps.apple.com/us/app/t3-code-remote-claude-more/id6787819824), [Android](https://play.google.com/store/apps/details?id=com.t3tools.t3code)), [web app](https://app.t3.codes) and [Electron-based desktop app](https://t3.codes).

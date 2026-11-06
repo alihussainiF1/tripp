@@ -377,7 +377,10 @@ export function DraftHeroHeadline({
 
   const noProjectShortcut = shortcutLabelForCommand(keybindings, "chat.newWithoutProject");
   const orStartWithoutProject =
-    scratchWorkspaceRoot !== null && !isScratchDraft && (hasResolvedProject || canChooseProject) ? (
+    scratchWorkspaceRoot !== null &&
+    !isScratchDraft &&
+    (hasResolvedProject || canChooseProject) &&
+    !(activeProject && isBotProject(activeProject)) ? (
       <Tooltip>
         <TooltipTrigger
           render={

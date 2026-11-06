@@ -156,3 +156,19 @@ Routines tab backed by scheduled tasks in `continue` mode; Add routine prefill; 
 - Reviews: therundown.ai/tools/grok-bot, buildfastwithai.com (grok-bot-review), mem0.ai/blog (grok-bot-review), stork.ai/en/grok-bot, aireiter.com, agent-finder.co, layer3labs.io/guides/grok-bot-review
 - Reimplementations and companions: github.com/ashhart/OpenBot, github.com/Deepusleepy/t3-tots
 - T3 Code source at /tmp/t3code-upstream (commit 6577c6b6), docs/internals, docs/orchestration-v2, AGENTS.md
+
+---
+
+## Status (2026-11-06)
+
+Delivered and verified end to end on holmes (dev server and the production service):
+
+- Fork, rename, icons, telemetry off, Bots/Developer view toggle.
+- Bot roster sidebar; Create a Bot (name, label, avatar, model, job); Bot folder with `bot.json`, `AGENTS.md`, `CLAUDE.md`, `MEMORY.md`.
+- Bot details card: New conversation, Instructions editor, Memory editor, Routines (add, pause, resume, test, edit), History.
+- Routines run on schedule and post into the Bot's conversation (verified with a one-minute routine).
+- Bot-to-Bot handoff through the T3 MCP tools (Ops asked Scout a question and reported back).
+- Home opens the primary Bot's ongoing conversation. Row actions: rename, pin, make primary, hide, delete. Hidden Bots list.
+- Production: `vp run build`, `scripts/tripp-service.sh install`, bound to the Tailscale address on port 3901. See `docs/tripp/RUN.md`.
+
+Not done yet: a dedicated tripp theme (Iris is close), image avatars, group chats, voice, shared Bots, Electron and native mobile builds, T3 Connect replacement (tunnel, push, public webhooks).
