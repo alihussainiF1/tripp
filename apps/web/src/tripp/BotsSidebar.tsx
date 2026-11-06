@@ -14,7 +14,6 @@ import { buildThreadRouteParams } from "../threadRoutes";
 import { cn } from "~/lib/utils";
 import { type Bot, useBots } from "./bots";
 import { CreateBotDialog } from "./CreateBotDialog";
-import { useDeveloperMode } from "./developerMode";
 
 function useActiveProjectKey(): string | null {
   const params = useParams({ strict: false }) as {
@@ -83,7 +82,6 @@ export function BotsSidebar(props: { readonly isElectron: boolean }) {
   const navigate = useNavigate();
   const handleNewThread = useNewThreadHandler();
   const [createOpen, setCreateOpen] = useState(false);
-  const [, setDeveloperMode] = useDeveloperMode();
 
   const openBot = (bot: Bot) => {
     if (bot.latestThread) {
@@ -140,15 +138,6 @@ export function BotsSidebar(props: { readonly isElectron: boolean }) {
               </ul>
             )}
           </div>
-        </SidebarGroup>
-        <SidebarGroup className="mt-auto">
-          <button
-            type="button"
-            onClick={() => setDeveloperMode(true)}
-            className="px-2 py-1 text-left text-2xs text-sidebar-muted-foreground hover:text-sidebar-foreground"
-          >
-            Switch to developer view
-          </button>
         </SidebarGroup>
       </SidebarContent>
       <SidebarChromeFooter />
